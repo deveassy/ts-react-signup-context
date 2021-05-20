@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-type InputValue = {
+import Profile from "./components/Profile";
+import Form from "./components/Form";
+
+type StateType = {
   name: string;
   age: string;
   email: string;
 };
 
 export default function App() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [email, setEmail] = useState("");
-  const [totalValue, setTotalValue] = useState<InputValue>({
+  const [name, setName] = useState<string>("");
+  const [age, setAge] = useState<string>(""); // 초기값을 설정하는 것에 따라서 state의 타입이 결정됨, 그렇기 때문에 명확히 확인할 수 있도록 generic으로 타입 지정해주기.
+  const [email, setEmail] = useState<string>("");
+  const [totalValue, setTotalValue] = useState<StateType>({
     name: "",
     age: "",
     email: "",
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !age || !email) return alert("빈칸을 채우세요");
     setTotalValue({
@@ -32,30 +35,9 @@ export default function App() {
 
   return (
     <Container>
-      <ProfileContainer>
-        <ProfileText>이름 : {totalValue.name}</ProfileText>
-        <ProfileText>나이 : {totalValue.age}</ProfileText>
-        <ProfileText>이메일 : {totalValue.email}</ProfileText>
-        <ProfileText>{/*저장된 정보 없을 경우 보여줄 메세지*/}</ProfileText>
-      </ProfileContainer>
-      <FormContainer>
-        <SignupInput
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <SignupInput
-          placeholder="나이"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
-        <SignupInput
-          placeholder="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <SubmitButton onClick={handleSubmit}>제출</SubmitButton>
-      </FormContainer>
+      <Profile value={totalValue} />
+      {/* Profile 컴포넌트에서는 value값을 사용하기 */}
+      <Form onSubmit={handleSubmit} />
     </Container>
   );
 }
@@ -70,13 +52,3 @@ const Container = styled(FlexDiv)`
   flex-direction: column;
   height: 100vh;
 `;
-
-const ProfileContainer = styled(FlexDiv)`
-  flex-direction: column;
-`;
-const ProfileText = styled.p``;
-const FormContainer = styled(FlexDiv)`
-  flex-direction: column;
-`;
-const SignupInput = styled.input``;
-const SubmitButton = styled.button``;
