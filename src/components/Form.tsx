@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+type StateType = {
+  name: string;
+  age: string;
+  email: string;
+};
+
 type FormProps = {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (item: StateType) => void;
 };
 
 export default function Form(props: FormProps) {
@@ -22,19 +28,21 @@ export default function Form(props: FormProps) {
     });
   };
 
-  //   const handleKeyPress = () => {
-  //       if(e.key === "Enter") {
-  //           setNewInfo({
-  //               name,
-  //               age,
-  //               email
-  //           })
-  //       }
-  //   }
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (!newInfo.name || !newInfo.age || !newInfo.email)
+      return alert("빈칸을 채워주세요!");
+    onSubmit(newInfo);
+    setNewInfo({
+      name: "",
+      age: "",
+      email: "",
+    });
+  };
 
   return (
     <FormContainer>
-      <FormWrapper onSubmit={onSubmit}>
+      <FormWrapper onSubmit={handleSubmit}>
         <SignupInput
           placeholder="이름"
           name="name"

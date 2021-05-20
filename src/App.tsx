@@ -11,32 +11,20 @@ type StateType = {
 };
 
 export default function App() {
-  const [name, setName] = useState<string>("");
-  const [age, setAge] = useState<string>(""); // 초기값을 설정하는 것에 따라서 state의 타입이 결정됨, 그렇기 때문에 명확히 확인할 수 있도록 generic으로 타입 지정해주기.
-  const [email, setEmail] = useState<string>("");
   const [totalValue, setTotalValue] = useState<StateType>({
     name: "",
     age: "",
     email: "",
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!name || !age || !email) return alert("빈칸을 채우세요");
-    setTotalValue({
-      name,
-      age,
-      email,
-    });
-    setName("");
-    setAge("");
-    setEmail("");
+  const handleSubmit = (data: StateType) => {
+    // App은 가공이 다 되서 전달받은 data를 받아서 Profile 컴포넌트에 전달하기만 하면 된다.
+    setTotalValue(data);
   };
 
   return (
     <Container>
       <Profile value={totalValue} />
-      {/* Profile 컴포넌트에서는 value값을 사용하기 */}
       <Form onSubmit={handleSubmit} />
     </Container>
   );
