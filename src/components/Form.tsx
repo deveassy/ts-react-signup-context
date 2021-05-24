@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { Context } from "../context";
 
-type StateType = {
-  name: string;
-  age: string;
-  email: string;
-};
+// type StateType = {
+//   name: string;
+//   age: string;
+//   email: string;
+// };
 
-type FormProps = {
-  onSubmit: (item: StateType) => void;
-};
+// type FormProps = {
+//   onSubmit: (item: StateType) => void;
+// };
 
-export default function Form(props: FormProps) {
-  const { onSubmit } = props;
-
+export default function Form() {
+  const { action } = useContext(Context);
   const [newInfo, setNewInfo] = useState({
     name: "",
     age: "",
@@ -28,11 +28,11 @@ export default function Form(props: FormProps) {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newInfo.name || !newInfo.age || !newInfo.email)
       return alert("빈칸을 채워주세요!");
-    onSubmit(newInfo);
+    // onSubmit(newInfo);
     setNewInfo({
       name: "",
       age: "",
