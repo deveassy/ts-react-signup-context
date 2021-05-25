@@ -1,24 +1,16 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { Context } from "../context";
-
-// type StateType = {
-//   name: string;
-//   age: string;
-//   email: string;
-// };
-
-// type FormProps = {
-//   onSubmit: (item: StateType) => void;
-// };
+import { DispatchContext } from "../context";
 
 export default function Form() {
-  const { action } = useContext(Context);
   const [newInfo, setNewInfo] = useState({
     name: "",
     age: "",
     email: "",
   });
+
+  const dispatch = useContext(DispatchContext);
+  if (!dispatch) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -32,7 +24,10 @@ export default function Form() {
     e.preventDefault();
     if (!newInfo.name || !newInfo.age || !newInfo.email)
       return alert("빈칸을 채워주세요!");
-    // onSubmit(newInfo);
+    dispatch({
+      type: "SUBMIT",
+      data: newInfo,
+    });
     setNewInfo({
       name: "",
       age: "",

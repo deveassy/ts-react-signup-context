@@ -1,27 +1,46 @@
-import { createContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, useReducer } from "react";
 
-export const Context = createContext({
-  state: { name: "", age: "", email: "" },
-  action: {
-    setName: () => {},
-    setAge: () => {},
-    setEmail: () => {},
-  },
-});
-
-export const ContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [email, setEmail] = useState("");
-
-  const value = {
-    state: { name, age, email },
-    action: { setName, setAge, setEmail },
-  };
-
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+type StateType = {
+  name: string;
+  age: string;
+  email: string;
 };
+
+type Action = {
+  type: "SUBMIT";
+  data: StateType;
+};
+
+const initialState = {
+  name: "",
+  age: "",
+  email: "",
+};
+
+export const StateContext = createContext<StateType | undefined>(undefined);
+export const DispatchContext = createContext<Dispatch<Action> | undefined>(
+  undefined
+);
+
+const Reducer = (state: StateType, action: Action): StateType => {
+  switch (action.type) {
+    case "SUBMIT":
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+function ContextProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(Reducer, initialState);
+
+  return (
+    <StateContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        {children}
+      </DispatchContext.Provider>
+    </StateContext.Provider>
+  );
+}
+
+export default ContextProvider;

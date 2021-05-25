@@ -1,28 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import Profile from "./components/Profile";
 import Form from "./components/Form";
-import { ContextProvider } from "./context";
-
-type StateType = {
-  name: string;
-  age: string;
-  email: string;
-};
+import ContextProvider from "./context";
 
 export default function App() {
-  // const [totalValue, setTotalValue] = useState<StateType>({
-  //   name: '',
-  //   age: '',
-  //   email: ''
-  // });
-
-  // const handleSubmit = (data: StateType) => {
-  //   // App은 가공이 다 되서 전달받은 data를 받아서 Profile 컴포넌트에 전달하기만 하면 된다.
-  //   setTotalValue(data);
-  // };
-
   return (
     <ContextProvider>
       <Container>

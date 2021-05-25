@@ -1,20 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Context } from "../context";
+import { StateContext } from "../context";
 
-// type StateType = {
-//   name: string;
-//   age: string;
-//   email: string;
-// };
-
-// type ProfileProps = {
-//   value: StateType;
-// };
-
-// 받은 데이터 (props = value)를 제 위치에 뿌려주기만 하면 되는 컴포넌트
 export default function Profile() {
-  const { state } = useContext(Context);
+  const state = useContext(StateContext);
+  if (!state) return null;
 
   return (
     <ProfileContainer>
